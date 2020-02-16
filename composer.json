@@ -1,0 +1,34 @@
+{
+    "name":              "darkelfe14728/phpdox_parser_psr19",
+    "description":       "A phpDox parser for PSR-19 documentation tags",
+    "keywords":          [ "phpDox", "PSR-19", "parser" ],
+
+    "minimum-stability": "stable",
+    "require":           {
+        "php": ">=7.2",
+        "theseer/phpdox": "^0.12.0"
+    },
+    "autoload":          {
+        "psr-4":                 {
+            "TheSeer\\phpDox\\Generator\\Parser\\": "src/"
+        },
+        "exclude-from-classmap": [ "Tests/" ]
+    },
+
+    "readme":            "README.md",
+    "homepage":          "https://github.com/darkelfe14728/phpdox_parser_psr19",
+    "license":           "CC-BY-4.0",
+    "authors":           [
+        {
+            "name":  "Julien Rosset",
+            "email": "jul.rosset@gmail.com"
+        }
+    ],
+    "support":           {
+        "email":  "jul.rosset@gmail.com",
+        "issues": "https://github.com/darkelfe14728/phpdox_parser_psr19/issues",
+        "wiki":   "https://github.com/darkelfe14728/phpdox_parser_psr19/wiki",
+        "docs":   "https://github.com/darkelfe14728/phpdox_parser_psr19/wiki",
+        "source": "https://github.com/darkelfe14728/phpdox_parser_psr19"
+    }
+}
