@@ -1,8 +1,28 @@
 <?php
 
-namespace TheSeer\phpDox\DocBlock;
+namespace phpDoxExtension\Parser\PSR19;
 
+use TheSeer\phpDox\DocBlock\GenericElement;
+use TheSeer\phpDox\DocBlock\GenericParser;
+
+/**
+ * Class for author tag
+ *
+ * Syntax : name [<email>]
+ *
+ * Email MUST respect RFC-2822 and enclosed by square bracket to be recognized
+ *
+ * Attributes :
+ *  - name : author name
+ *  - email : author email (without square bracket)
+ *  - url : author email URL (mailto)
+ *
+ * @package phpDoxExtension\Parser\PSR19
+ */
 class AuthorParser extends GenericParser {
+    /**
+     * @var string The RFC-2822 email regular expression
+     */
     public const REGEX_EMAIL_RFC2822 = /** @lang PhpRegExp */ <<<'REGEXP'
 /(?(DEFINE)
             (?<addr_spec> (?&local_part) @ (?&domain) )
@@ -44,7 +64,10 @@ class AuthorParser extends GenericParser {
         ^<(?<email>(?&addr_spec))>$/x
 REGEXP;
 
-    public function getObject (array $buffer) {
+    /**
+     * @inheritDoc
+     */
+    public function getObject (array $buffer): GenericElement {
         $obj = $this->buildObject('generic', $buffer);
 
         $params = preg_split("/\s+/", $this->payload, -1, PREG_SPLIT_NO_EMPTY);
