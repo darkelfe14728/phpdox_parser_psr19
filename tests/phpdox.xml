@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config" silent="false">
+    <bootstrap>
+        <require file="../bootstrap.php"/>
+    </bootstrap>
+    <project name="phpDox Parser : PSR-19" source="${basedir}/src" workdir="${basedir}/build">
+        <collector publiconly="false" backend="parser" encoding="utf-8">
+            <include mask="*.php"/>
+            <exclude mask=""/>
+
+            <inheritance resolve="false"/>
+        </collector>
+
+        <generator output="${basedir}/output">
+            <enrich base="${basedir}/build"/>
+
+            <build engine="html" enabled="true" output="html">
+                <template path="${basedir}/../vendor/theseer/phpdox/templates/html"/>
+                <file extension="xhtml"/>
+            </build>
+        </generator>
+    </project>
+</phpdox>

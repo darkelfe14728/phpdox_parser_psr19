@@ -10,9 +10,9 @@
     },
     "autoload":          {
         "psr-4":                 {
-            "TheSeer\\phpDox\\Generator\\Parser\\": "src/"
+            "TheSeer\\phpDox\\DocBlock\\": "src/"
         },
-        "exclude-from-classmap": [ "Tests/" ]
+        "exclude-from-classmap": [ "tests/" ]
     },
 
     "readme":            "README.md",
