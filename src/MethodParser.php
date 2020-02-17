@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
 use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
-use TheSeer\phpDox\DocBlock\GenericElement;
 
 /**
  * Class for method tag
@@ -25,10 +25,10 @@ class MethodParser extends GenericParser {
      * @inheritDoc
      */
     public function getObject (array $buffer): GenericElement {
-        $obj = $this->buildObject('generic', $buffer);
+        $obj = $this->createElement(GenericElement::class, $buffer);
 
         if (preg_match('@^(?:(?<return>[^ ]+)\s+)?(?<name>[a-z0-9_]+)\s*\((?<parameters>.+?)?\)\s*(?<description>.+)?$@i', $this->payload, $matches)) {
-            $obj->setName($matches['name']);
+            $obj->addAttribute('name', $matches['name']);
 
             $body = rtrim($matches['description']).' ';
             if (!empty($matches['return'])) {

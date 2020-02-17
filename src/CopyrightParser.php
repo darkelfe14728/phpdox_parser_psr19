@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
-use TheSeer\phpDox\DocBlock\GenericElement;
-use TheSeer\phpDox\DocBlock\GenericParser;
+use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Class for copyright tag
@@ -26,13 +26,13 @@ class CopyrightParser extends GenericParser {
      * @inheritDoc
      */
     public function getObject (array $buffer): GenericElement {
-        $obj = $this->buildObject('generic', $buffer);
+        $obj = $this->createElement(GenericElement::class, $buffer);
         $obj->setBody($this->payload);
 
         if (preg_match('@(?<start>[0-9]{4})(?:-(?<end>[0-9]{4}))?@', $this->payload, $matches)) {
-            $obj->setRange($matches[0]);
-            $obj->setYear_start($matches['start']);
-            $obj->setYear_end(empty($matches['end']) ? $matches['start'] : $matches['end']);
+            $obj->addAttribute('range', $matches[0]);
+            $obj->addAttribute('yearStart', $matches['start']);
+            $obj->addAttribute('yearEnd', empty($matches['end']) ? $matches['start'] : $matches['end']);
         }
 
         return $obj;

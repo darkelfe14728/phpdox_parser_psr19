@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
-use TheSeer\phpDox\DocBlock\GenericElement;
-use TheSeer\phpDox\DocBlock\GenericParser;
+use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Class for link tag
@@ -29,13 +29,13 @@ class LinkParser extends GenericParser {
      * @inheritDoc
      */
     public function getObject (array $buffer): GenericElement {
-        $obj = $this->buildObject('generic', $buffer);
+        $obj = $this->createElement(GenericElement::class, $buffer);
 
         $params = preg_split("/\s+/", $this->payload, -1, PREG_SPLIT_NO_EMPTY);
 
         if (!empty($params[0]) && preg_match(self::REGEX_URI_RFC2396, $params[0], $matches) === 1) {
-            $obj->setUri($params[0]);
-            array_pop($params);
+            $obj->addAttribute('uri',$params[0]);
+            array_shift($params);
         }
 
         $obj->setBody(implode(' ', $params));

@@ -2,7 +2,7 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
-use TheSeer\phpDox\DocBlock\GenericParser;
+use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Parser for api tag

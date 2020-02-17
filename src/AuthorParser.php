@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
-use TheSeer\phpDox\DocBlock\GenericElement;
-use TheSeer\phpDox\DocBlock\GenericParser;
+use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Class for author tag
@@ -68,19 +68,19 @@ REGEXP;
      * @inheritDoc
      */
     public function getObject (array $buffer): GenericElement {
-        $obj = $this->buildObject('generic', $buffer);
+        $obj = $this->createElement(GenericElement::class, $buffer);
 
         $params = preg_split("/\s+/", $this->payload, -1, PREG_SPLIT_NO_EMPTY);
 
         $last = end($params);
         if (preg_match(self::REGEX_EMAIL_RFC2822, $last, $matches) === 1) {
-            $obj->setEmail($matches['email']);
-            $obj->setUrl('mailto:' . $matches['email']);
+            $obj->addAttribute('email', $matches['email']);
+            $obj->addAttribute('url', 'mailto:' . $matches['email']);
 
             array_pop($params);
         }
 
-        $obj->setName(implode(' ', $params));
+        $obj->addAttribute('name', implode(' ', $params));
 
         return $obj;
     }

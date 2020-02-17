@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
-use TheSeer\phpDox\DocBlock\GenericElement;
-use TheSeer\phpDox\DocBlock\GenericParser;
+use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Class for deprecated tag
@@ -22,10 +22,10 @@ class DeprecatedParser extends GenericParser {
      * @inheritDoc
      */
     public function getObject (array $buffer): GenericElement {
-        $obj = $this->buildObject('generic', $buffer) ;
+        $obj = $this->createElement(GenericElement::class, $buffer) ;
 
         if (preg_match('@^\s*(?<version>[0-9]+\.[^ ]+)\s*@', $this->payload, $matches)) {
-            $obj->setSince($matches['version']);
+            $obj->addAttribute('since', $matches['version']);
             $obj->setBody(mb_substr($this->payload, mb_strlen($matches[0])));
         }
         else {
