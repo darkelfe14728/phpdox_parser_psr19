@@ -2,8 +2,8 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
-use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
  * Class for link tag
@@ -19,7 +19,7 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class LinkParser extends GenericParser {
+class LinkParser extends AbstractParser {
     /**
      * @var string The RFC-2396 URI regular expression
      */
@@ -28,18 +28,23 @@ class LinkParser extends GenericParser {
     /**
      * @inheritDoc
      */
-    public function getObject (array $buffer): GenericElement {
-        $obj = $this->createElement(GenericElement::class, $buffer);
+    public function allowedAsInline (): bool {
+        return true;
+    }
 
-        $params = preg_split("/\s+/", $this->payload, -1, PREG_SPLIT_NO_EMPTY);
+    /**
+     * @inheritDoc
+     */
+    protected function parse (): GenericElement {
+        $element = $this->createElement(GenericElement::class);
+        $params = $this->getPayloadSplitted();
 
         if (!empty($params[0]) && preg_match(self::REGEX_URI_RFC2396, $params[0], $matches) === 1) {
-            $obj->addAttribute('uri',$params[0]);
+            $element->addAttribute('uri',$params[0]);
             array_shift($params);
         }
 
-        $obj->setBody(implode(' ', $params));
-
-        return $obj;
+        $element->addChild(implode(' ', $params));
+        return $element;
     }
 }

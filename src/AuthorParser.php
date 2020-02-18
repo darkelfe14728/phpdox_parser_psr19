@@ -2,11 +2,11 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
-use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
- * Class for author tag
+ * Class for "author" tag
  *
  * Syntax : name [<email>]
  *
@@ -19,7 +19,7 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class AuthorParser extends GenericParser {
+class AuthorParser extends AbstractParser {
     /**
      * @var string The RFC-2822 email regular expression
      */
@@ -67,21 +67,24 @@ REGEXP;
     /**
      * @inheritDoc
      */
-    public function getObject (array $buffer): GenericElement {
-        $obj = $this->createElement(GenericElement::class, $buffer);
+    public function allowedAsInline (): bool {
+        return false;
+    }
 
-        $params = preg_split("/\s+/", $this->payload, -1, PREG_SPLIT_NO_EMPTY);
+    /**
+     * @inheritDoc
+     */
+    protected function parse (): GenericElement {
+        $element = $this->createElement(GenericElement::class);
+        $params = $this->getPayloadSplitted();
 
         $last = end($params);
         if (preg_match(self::REGEX_EMAIL_RFC2822, $last, $matches) === 1) {
-            $obj->addAttribute('email', $matches['email']);
-            $obj->addAttribute('url', 'mailto:' . $matches['email']);
-
+            $element->addAttribute('email', $matches['email']);
             array_pop($params);
         }
 
-        $obj->addAttribute('name', implode(' ', $params));
-
-        return $obj;
+        $element->addAttribute('name', implode(' ', $params));
+        return $element;
     }
 }

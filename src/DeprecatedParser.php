@@ -2,11 +2,11 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
-use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
- * Class for deprecated tag
+ * Class for "deprecated" tag
  *
  * Syntax : [version] [description]
  *
@@ -17,19 +17,26 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class DeprecatedParser extends GenericParser {
+class DeprecatedParser extends AbstractParser {
     /**
      * @inheritDoc
      */
-    public function getObject (array $buffer): GenericElement {
-        $obj = $this->createElement(GenericElement::class, $buffer) ;
+    public function allowedAsInline (): bool {
+        return false;
+    }
 
-        if (preg_match('@^\s*(?<version>[0-9]+\.[^ ]+)\s*@', $this->payload, $matches)) {
+    /**
+     * @inheritDoc
+     */
+    protected function parse (): GenericElement {
+        $obj = $this->createElement(GenericElement::class) ;
+
+        if (preg_match('@^\s*(?<version>[0-9]+\.[^ ]+)\s*@', $this->getPayload(), $matches)) {
             $obj->addAttribute('since', $matches['version']);
-            $obj->setBody(mb_substr($this->payload, mb_strlen($matches[0])));
+            $obj->setBody(mb_substr($this->getPayload(), mb_strlen($matches[0])));
         }
         else {
-            $obj->setBody($this->payload);
+            $obj->setBody($this->getPayload());
         }
 
         return $obj;

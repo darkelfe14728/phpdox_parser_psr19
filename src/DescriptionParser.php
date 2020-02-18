@@ -5,12 +5,7 @@ namespace phpDoxExtension\Parser\PSR19;
 use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
 
-/**
- * Parser for "api" tag
- *
- * @package phpDoxExtension\Parser\PSR19
- */
-class ApiParser extends AbstractParser {
+class DescriptionParser extends AbstractParser {
     /**
      * @inheritDoc
      */
@@ -22,6 +17,8 @@ class ApiParser extends AbstractParser {
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        return $this->createElement(GenericElement::class);
+        $element = $this->createElement(GenericElement::class, true);
+        $element->addChild($this->getPayload());
+        return $element;
     }
 }

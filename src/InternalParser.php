@@ -2,11 +2,11 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
-use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
- * Class for internal tag
+ * Class for "internal" tag
  *
  * Syntax : [description]
  *
@@ -14,14 +14,20 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class InternalParser extends GenericParser {
+class InternalParser extends AbstractParser {
     /**
      * @inheritDoc
      */
-    public function getObject (array $buffer): GenericElement {
-        $obj = $this->createElement(GenericElement::class, $buffer);
-        $obj->setBody($this->payload);
+    public function allowedAsInline (): bool {
+        return true;
+    }
 
-        return $obj;
+    /**
+     * @inheritDoc
+     */
+    protected function parse (): GenericElement {
+        $element = $this->createElement(GenericElement::class, true);
+        $element->addChild($this->getPayload());
+        return $element;
     }
 }

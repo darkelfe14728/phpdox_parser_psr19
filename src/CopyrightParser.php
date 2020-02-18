@@ -2,11 +2,11 @@
 
 namespace phpDoxExtension\Parser\PSR19;
 
+use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
-use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
 
 /**
- * Class for copyright tag
+ * Class for "copyright" tag
  *
  * Syntax : description
  *
@@ -17,24 +17,31 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericParser;
  *  - year_start : start year of copyright
  *  - year_end : end year of copyright
  *
- * Body : copyright description
+ * Body : copyright description (year range included)
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class CopyrightParser extends GenericParser {
+class CopyrightParser extends AbstractParser {
     /**
      * @inheritDoc
      */
-    public function getObject (array $buffer): GenericElement {
-        $obj = $this->createElement(GenericElement::class, $buffer);
-        $obj->setBody($this->payload);
+    public function allowedAsInline (): bool {
+        return false;
+    }
 
-        if (preg_match('@(?<start>[0-9]{4})(?:-(?<end>[0-9]{4}))?@', $this->payload, $matches)) {
-            $obj->addAttribute('range', $matches[0]);
-            $obj->addAttribute('yearStart', $matches['start']);
-            $obj->addAttribute('yearEnd', empty($matches['end']) ? $matches['start'] : $matches['end']);
+    /**
+     * @inheritDoc
+     */
+    protected function parse (): GenericElement {
+        $element = $this->createElement(GenericElement::class);
+        $element->addChild($this->getPayload());
+
+        if (preg_match('@(?<start>[0-9]{4})(?:-(?<end>[0-9]{4}))?@', $this->getPayload(), $matches)) {
+            $element->addAttribute('range', $matches[0]);
+            $element->addAttribute('yearStart', $matches['start']);
+            $element->addAttribute('yearEnd', empty($matches['end']) ? $matches['start'] : $matches['end']);
         }
 
-        return $obj;
+        return $element;
     }
 }
