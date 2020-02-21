@@ -2,12 +2,17 @@
 
 namespace phpDoxExtension\Parser\PSR19\Utils;
 
+use function count;
+
 /**
  * The abstract "type" parser used by tags
  *
  * @package phpDoxExtension\Parser\PSR19\Utils
  */
 abstract class TypeParser extends AbstractParser {
+    /**
+     * @var string The default type (when not given)
+     */
     protected const TYPE_DEFAULT = 'void';
 
     /**
@@ -27,25 +32,6 @@ abstract class TypeParser extends AbstractParser {
     }
 
     /**
-     * Extract type information from payload
-     *
-     * @param array $payload The payload (splitted) to analyse. As reference to allow payload modification
-     *
-     * @return string The type
-     */
-    protected function extractType (array &$payload): string {
-        if (count($payload)) {
-            $type = empty($payload[0]) ? static::TYPE_DEFAULT : $payload[0];
-            unset($payload[0]);
-        }
-        else {
-            $type = static::TYPE_DEFAULT;
-        }
-
-        return $type;
-    }
-
-    /**
      * @inheritDoc
      */
     protected function parse (): GenericElement {
@@ -53,7 +39,14 @@ abstract class TypeParser extends AbstractParser {
         $element = $this->createElement(TypeElement::class, true);
         $payload = $this->getPayloadSplitted();
 
-        $type_raw = $this->extractType($payload);
+        if (count($payload)) {
+            $type_raw = empty($payload[0]) ? static::TYPE_DEFAULT : $payload[0];
+            unset($payload[0]);
+        }
+        else {
+            $type_raw = static::TYPE_DEFAULT;
+        }
+
         $this->treatTypeExpression($element, $type_raw);
 
         $element->addAttribute(TypeElement::TAG_NAME, $type_raw);
@@ -68,7 +61,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw A type expression
      */
-    private function treatTypeExpression (TypeElement $element, string $type_raw): void {
+    protected function treatTypeExpression (TypeElement $element, string $type_raw): void {
         $types = self::splitOn($type_raw, '|');
         foreach ($types as $type) {
             if (count(self::splitOn($type, '&')) > 1) {
@@ -85,7 +78,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw The type intersect
      */
-    private function treatTypeIntersect (TypeElement $element, string $type_raw): void {
+    protected function treatTypeIntersect (TypeElement $element, string $type_raw): void {
         /** @var TypeElement $intersect */
         $intersect = $this->createElement(TypeElement::class, true, TypeElement::TAG_NAME);
         $intersect->setType($type_raw, TypeElement::TYPE_INTERSECT);
@@ -103,7 +96,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw A type
      */
-    private function treatType (TypeElement $element, string $type_raw): void {
+    protected function treatType (TypeElement $element, string $type_raw): void {
         if (mb_substr($type_raw, -2) === '[]') {
             $this->treatArray($element, $type_raw);
         }
@@ -120,7 +113,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw A type array
      */
-    private function treatArray (TypeElement $element, string $type_raw): void {
+    protected function treatArray (TypeElement $element, string $type_raw): void {
         /** @var TypeElement $array */
         $array = $this->createElement(TypeElement::class, true, TypeElement::TAG_NAME);
 
@@ -142,7 +135,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw A type array
      */
-    private function treatClassName (TypeElement $element, string $type_raw): void {
+    protected function treatClassName (TypeElement $element, string $type_raw): void {
         /** @var TypeElement $class */
         $class = $this->createElement(TypeElement::class, true, TypeElement::TAG_NAME);
 
@@ -168,7 +161,7 @@ abstract class TypeParser extends AbstractParser {
      * @param TypeElement $element  The "type" element to fill
      * @param string      $type_raw A type array
      */
-    private function treatKeyword (TypeElement $element, string $type_raw): void {
+    protected function treatKeyword (TypeElement $element, string $type_raw): void {
         /** @var TypeElement $keyword */
         $keyword = $this->createElement(TypeElement::class, true, TypeElement::TAG_NAME);
 
@@ -190,7 +183,7 @@ abstract class TypeParser extends AbstractParser {
      *
      * @return string[] The resulting array
      */
-    private static function splitOn (string $input, string $separator): array {
+    protected static function splitOn (string $input, string $separator): array {
         preg_match_all('@[' . $separator . '()]@', $input, $matches, PREG_SET_ORDER + PREG_OFFSET_CAPTURE);
 
         $output = [];

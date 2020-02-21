@@ -18,4 +18,6 @@ $phpDox->registerParser('deprecated')->implementedByClass('phpDoxExtension\\Pars
 $phpDox->registerParser('internal')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\InternalParser');
 $phpDox->registerParser('link')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\LinkParser');
 $phpDox->registerParser('method')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\MethodParser');
+$phpDox->registerParser('package')->implementedByClass('phpDoxExtension\\Parser\\PSR19\PackageParser');
+$phpDox->registerParser('param')->implementedByClass('phpDoxExtension\\Parser\\PSR19\PackageParser');
 $phpDox->registerParser('return')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\ReturnParser');
