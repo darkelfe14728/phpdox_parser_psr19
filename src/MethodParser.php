@@ -37,6 +37,8 @@ class MethodParser extends AbstractParser {
         if (preg_match('@^(?:(?<return>[^ ]+)\s+)?(?<name>[a-z0-9_]+)\s*\((?<parameters>.+?)?\)\s*(?<description>.+)?$@i', $this->getPayload(), $matches)) {
             $element->addAttribute('name', $matches['name']);
 
+            $element->addChild( $this->createParser(ReturnParser::class)->getObject([ $matches['return'] ]));
+
 //            if (!empty($matches['return'])) {
 //                $description .= ' {@return ' . $this->lookupType($matches['return']) . '}';
 //            }

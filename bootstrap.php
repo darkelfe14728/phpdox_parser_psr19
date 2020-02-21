@@ -17,5 +17,5 @@ $phpDox->registerParser('copyright')->implementedByClass('phpDoxExtension\\Parse
 $phpDox->registerParser('deprecated')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\DeprecatedParser');
 $phpDox->registerParser('internal')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\InternalParser');
 $phpDox->registerParser('link')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\LinkParser');
-//$phpDox->registerParser('method')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\MethodParser');
+$phpDox->registerParser('method')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\MethodParser');
 $phpDox->registerParser('return')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\ReturnParser');

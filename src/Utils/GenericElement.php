@@ -48,14 +48,14 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
     /**
      * Add a child for the output XML
      *
-     * Child which are NOT string or {@see static}/{@link https://www.php.net/manual/en/class.domelement.php DOMElement} will be cast to string
+     * Child which are NOT string or {@see \TheSeer\phpDox\DocBlock\GenericElement}/{@link https://www.php.net/manual/en/class.domelement.php DOMElement} will be cast to string
      *
      * @param mixed $child The child to add
      */
     public function addChild ($child): void {
         if (is_string($child)
             || (is_object($child)
-                && ($child instanceof static || $child instanceof DOMElement)
+                && ($child instanceof \TheSeer\phpDox\DocBlock\GenericElement || $child instanceof DOMElement)
             )
         ) {
             $this->body[] = $child;
@@ -89,7 +89,7 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
                 if ($child instanceof DOMElement) {
                     $element->appendChild($ctx->importNode($child, true));
                 }
-                elseif ($child instanceof static) {
+                elseif ($child instanceof \TheSeer\phpDox\DocBlock\GenericElement) {
                     $element->appendChild($child->asDom($ctx));
                 }
             }

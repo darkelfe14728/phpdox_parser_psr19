@@ -53,8 +53,10 @@ abstract class TypeParser extends AbstractParser {
         $element = $this->createElement(TypeElement::class, true);
         $payload = $this->getPayloadSplitted();
 
-        $this->treatTypeExpression($element, $this->extractType($payload));
+        $type_raw = $this->extractType($payload);
+        $this->treatTypeExpression($element, $type_raw);
 
+        $element->addAttribute(TypeElement::TAG_NAME, $type_raw);
         $element->addChild(implode(' ', $payload));
 
         return $element;

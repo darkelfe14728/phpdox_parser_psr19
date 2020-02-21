@@ -8,7 +8,7 @@ use phpDoxExtension\Parser\PSR19\Utils\TypeParser;
 
 class ReturnClass {
     /**
-     * @return array|bool|callable|false|float|int|iterable|mixed|null|object|resource|string|true|void|self|static|$this|Range|string[]|ApiParser|AbstractParser&TypeParser|(string[]|null)[] keyword
+     * @return array|bool|callable|false|float|int|iterable|mixed|null|object|resource|string|true|void|self|static|$this|Link|string[]|ApiParser|AbstractParser&TypeParser|(string[]|null)[] keyword
      */
     public function method1() {
         return null;
