@@ -75,7 +75,7 @@ REGEXP;
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        $element = $this->createElement(GenericElement::class);
+        $element = $this->createElement(GenericElement::class, false);
         $params = $this->getPayloadSplitted();
 
         $last = end($params);

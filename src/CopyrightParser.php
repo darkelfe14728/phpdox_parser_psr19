@@ -33,7 +33,7 @@ class CopyrightParser extends AbstractParser {
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        $element = $this->createElement(GenericElement::class);
+        $element = $this->createElement(GenericElement::class, true);
         $element->addChild($this->getPayload());
 
         if (preg_match('@(?<start>[0-9]{4})(?:-(?<end>[0-9]{4}))?@', $this->getPayload(), $matches)) {

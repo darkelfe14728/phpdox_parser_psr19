@@ -36,7 +36,7 @@ class LinkParser extends AbstractParser {
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        $element = $this->createElement(GenericElement::class);
+        $element = $this->createElement(GenericElement::class, false);
         $params = $this->getPayloadSplitted();
 
         if (!empty($params[0]) && preg_match(self::REGEX_URI_RFC2396, $params[0], $matches) === 1) {

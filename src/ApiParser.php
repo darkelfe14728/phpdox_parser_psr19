@@ -22,6 +22,6 @@ class ApiParser extends AbstractParser {
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        return $this->createElement(GenericElement::class);
+        return $this->createElement(GenericElement::class, false);
     }
 }

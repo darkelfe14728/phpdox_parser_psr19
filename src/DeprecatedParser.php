@@ -29,7 +29,7 @@ class DeprecatedParser extends AbstractParser {
      * @inheritDoc
      */
     protected function parse (): GenericElement {
-        $obj = $this->createElement(GenericElement::class) ;
+        $obj = $this->createElement(GenericElement::class, true) ;
 
         if (preg_match('@^\s*(?<version>[0-9]+\.[^ ]+)\s*@', $this->getPayload(), $matches)) {
             $obj->addAttribute('since', $matches['version']);

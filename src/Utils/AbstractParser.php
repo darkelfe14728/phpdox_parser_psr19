@@ -26,21 +26,22 @@ abstract class AbstractParser extends GenericParser {
     /**
      * Convenient function to create a new element
      *
-     * @param string $class          The element type (Fully Qualified Class Name)
-     * @param bool   $allowInlineTag True if children must be scanned for "inline tags"
+     * @param string      $class          The element type (Fully Qualified Class Name)
+     * @param bool        $allowInlineTag True if children must be scanned for "inline tags"
+     * @param string|null $tagName        The element tag name (if not same that parser tag)
      *
      * @return GenericElement The new element
      */
-    protected function createElement (string $class, bool $allowInlineTag = false): GenericElement {
-        return new $class($this->factory, $this->name, $allowInlineTag);
+    protected function createElement (string $class, bool $allowInlineTag, ?string $tagName = null): GenericElement {
+        return new $class($this->factory, $tagName ?? $this->name, $allowInlineTag);
     }
 
     /**
      * The tag payload
      *
-     * @return string The payload
+     * @return string|null The payload
      */
-    protected function getPayload (): string {
+    protected function getPayload (): ?string {
         return $this->payload;
     }
     /**
@@ -66,16 +67,5 @@ abstract class AbstractParser extends GenericParser {
         }
 
         return $this->parse();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function lookupType ($types_raw): string {
-        $types = explode('|', $types_raw);
-        foreach ($types as &$type) {
-            $type = parent::lookupType($type);
-        }
-        return implode('|', $types);
     }
 }

@@ -100,6 +100,7 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
 
         return $element;
     }
+
     /**
      * Treat (if allowed) inline tags
      *
