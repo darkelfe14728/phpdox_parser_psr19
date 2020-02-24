@@ -10,7 +10,7 @@ use function implode;
 use function mb_substr;
 
 /**
- * Class for "return" tag
+ * Class for "param" tag
  *
  * Syntax: [type] $name [description]
  *

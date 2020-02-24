@@ -6,7 +6,7 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
 use phpDoxExtension\Parser\PSR19\Utils\TypeElement;
 
 /**
- * Class for "return" tag
+ * Class for "property" tag
  *
  * Syntax: [type] $name [description]
  *
@@ -28,7 +28,6 @@ class PropertyParser extends ParamParser {
         $payload = $this->getPayloadSplitted();
         if (preg_match('@^-(?<access>read|write)$@', $payload[0],$match)) {
             $access = $match['access'];
-
             unset($payload[0]);
         }
         else {
