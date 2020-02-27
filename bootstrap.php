@@ -22,3 +22,4 @@ $phpDox->registerParser('package')->implementedByClass('phpDoxExtension\\Parser\
 $phpDox->registerParser('param')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\PackageParser');
 $phpDox->registerParser('property')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\PropertyParser');
 $phpDox->registerParser('return')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\ReturnParser');
+$phpDox->registerParser('see')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\SeeParser');

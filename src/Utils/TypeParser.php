@@ -139,20 +139,8 @@ abstract class TypeParser extends AbstractParser {
         /** @var TypeElement $class */
         $class = $this->createElement(TypeElement::class, true, TypeElement::TAG_NAME);
 
-        if (mb_substr($type_raw, 0, 1) === '\\') {                             // If fully qualifed class name
-            $type = $type_raw;
-        }
-        elseif (array_key_exists($type_raw, $this->aliasMap)) {                     // If imported ("use" keyword)
-            $type = $this->aliasMap[$type_raw];
-        }
-        elseif (array_key_exists('::context', $this->aliasMap)) {                   // There is an active namespace
-            $type = $this->aliasMap['::context'] . '\\' . $type_raw;
-        }
-        else {                                                                                  // Nothing special : assume global class
-            $type = $type_raw;
-        }
+        $class->setType($type_raw, TypeElement::TYPE_CLASS, $this->completeClassName($type_raw));
 
-        $class->setType($type_raw, TypeElement::TYPE_CLASS, $type);
         $element->addChild($class);
     }
     /**

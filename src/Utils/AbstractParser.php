@@ -3,6 +3,8 @@
 namespace phpDoxExtension\Parser\PSR19\Utils;
 
 use TheSeer\phpDox\DocBlock\GenericParser;
+use function array_key_exists;
+use function mb_substr;
 
 /**
  * The abstract parser used by all tags
@@ -71,6 +73,30 @@ abstract class AbstractParser extends GenericParser {
      */
     protected function getPayloadSplitted (bool $keepEmpty = false): array {
         return preg_split('@\s' . ($keepEmpty ? '' : '+') . '@', $this->getPayload());
+    }
+
+    /**
+     * Complete a class name
+     *
+     * @param string $class_name The class name
+     *
+     * @return string The completed class name
+     */
+    protected function completeClassName (string $class_name): string {
+        if (mb_substr($class_name, 0, 1) === '\\') {                             // If fully qualifed class name
+            $class = $class_name;
+        }
+        elseif (array_key_exists($class_name, $this->aliasMap)) {                     // If imported ("use" keyword)
+            $class = $this->aliasMap[$class_name];
+        }
+        elseif (array_key_exists('::context', $this->aliasMap)) {                   // There is an active namespace
+            $class = $this->aliasMap['::context'] . '\\' . $class_name;
+        }
+        else {                                                                                  // Nothing special : assume global class
+            $class = $class_name;
+        }
+
+        return $class;
     }
 
     /**

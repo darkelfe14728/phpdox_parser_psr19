@@ -100,7 +100,6 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
 
         return $element;
     }
-
     /**
      * Treat (if allowed) inline tags
      *
@@ -111,7 +110,7 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
      *
      * @throws fDOMException If an DOM operation failed
      */
-    protected function treatInlineTags(fDOMDocument $ctx, string $text): DOMNode {
+    protected function treatInlineTags (fDOMDocument $ctx, string $text): DOMNode {
         if (!$this->allowInlineTag) {
             return $ctx->createTextNode($text);
         }
@@ -119,7 +118,7 @@ class GenericElement extends \TheSeer\phpDox\DocBlock\GenericElement {
         $node = $ctx->createDocumentFragment();
         $start = 0;
 
-        preg_match_all('/{@(?<tag>[a-zAZ0-9_]+)(?:\s+(?<payload>[^{}]*(?:(?R))?[^{}]*)|)}/s',$text, $matches, PREG_SET_ORDER + PREG_OFFSET_CAPTURE);
+        preg_match_all('/{@(?<tag>[a-zAZ0-9_]+)(?:\s+(?<payload>[^{}]*(?:(?R))?[^{}]*)|)}/s', $text, $matches, PREG_SET_ORDER + PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($match[0][1] > $start) {
                 $node->appendChild($ctx->createTextNode(mb_substr($text, $start, $match[0][1] - $start)));
