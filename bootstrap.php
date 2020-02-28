@@ -25,3 +25,4 @@ $phpDox->registerParser('return')->implementedByClass('phpDoxExtension\\Parser\\
 $phpDox->registerParser('see')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\SeeParser');
 $phpDox->registerParser('since')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\SinceParser');
 $phpDox->registerParser('throws')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\ThrowsParser');
+$phpDox->registerParser('todo')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\TodoParser');
