@@ -4,6 +4,7 @@ namespace phpDoxExtension\Parser\PSR19;
 
 use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\RegexRegistry;
 
 /**
  * Class for "see" tag
@@ -26,11 +27,6 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
  * @package phpDoxExtension\Parser\PSR19
  */
 class SeeParser extends AbstractParser {
-    /**
-     * @var string A Fully Qualified Structural Element Name (FQSEN) regular expression
-     */
-    public const REGEX_FQSEN = /** @lang PhpRegExp */
-        '@^(?:(?<class>\\\\?(?:[a-zA-Z0-9_]+\\\\)*[a-zA-Z0-9_]+)::)?(?:(?<property>\\$[a-zA-Z0-9_]+)|(?<method>[a-zA-Z0-9_]+\\(\\))|(?<constant>[a-zA-Z0-9_]+))$@';
 
     /**
      * @var string Type attribute for constants
@@ -60,7 +56,7 @@ class SeeParser extends AbstractParser {
         $params = $this->getPayloadSplitted();
 
         if (!empty($params[0])) {
-            if (preg_match(static::REGEX_FQSEN, $params[0], $match) === 1) {
+            if (preg_match(RegexRegistry::FQSEN, $params[0], $match) === 1) {
                 $element->addAttribute('class', $match['class']);
 
                 if(!empty($match['property'])) {
@@ -78,7 +74,7 @@ class SeeParser extends AbstractParser {
 
                 array_shift($params);
             }
-            elseif (preg_match(LinkParser::REGEX_URI_RFC2396, $params[0], $match) === 1) {
+            elseif (preg_match(RegexRegistry::URI_RFC2396, $params[0], $match) === 1) {
                 $element->addAttribute('uri', $params[0]);
                 array_shift($params);
             }

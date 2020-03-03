@@ -4,6 +4,7 @@ namespace phpDoxExtension\Parser\PSR19;
 
 use phpDoxExtension\Parser\PSR19\Utils\AbstractParser;
 use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
+use phpDoxExtension\Parser\PSR19\Utils\RegexRegistry;
 
 /**
  * Class for link tag
@@ -20,10 +21,6 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
  * @package phpDoxExtension\Parser\PSR19
  */
 class LinkParser extends AbstractParser {
-    /**
-     * @var string The RFC-2396 URI regular expression
-     */
-    public const REGEX_URI_RFC2396 = /** @lang PhpRegExp */ '@^(?:(?:[^:/?#]+):)?(?://(?:[^/?#]*))?(?:[^?#]*)(?:\?(?:[^#]*))?(?:#(?:.*))?$@';
 
     /**
      * @inheritDoc
@@ -39,7 +36,7 @@ class LinkParser extends AbstractParser {
         $element = $this->createElement(GenericElement::class, false);
         $params = $this->getPayloadSplitted();
 
-        if (!empty($params[0]) && preg_match(self::REGEX_URI_RFC2396, $params[0], $matches) === 1) {
+        if (!empty($params[0]) && preg_match(RegexRegistry::URI_RFC2396, $params[0], $matches) === 1) {
             $element->addAttribute('uri',$params[0]);
             array_shift($params);
         }
