@@ -7,14 +7,12 @@ use phpDoxExtension\Parser\PSR19\Utils\GenericElement;
 use phpDoxExtension\Parser\PSR19\Utils\RegexRegistry;
 
 /**
- * Class for "see" tag
+ * Class for "uses" tag
  *
- * According to PSR, "see" tag can't be inline. Allowed here because make more sense to me ("link" to doesn't allow FQSEN)
+ * Syntax : file|FQSEN [description]
  *
- * Syntax : URI|FQSEN [description]
- *
- * Attributes [URI] :
- *  - uri : URI
+ * Attributes [file] :
+ *  - file
  *
  * Attributes [FQSEN] :
  *  - class : FQCN
@@ -26,12 +24,12 @@ use phpDoxExtension\Parser\PSR19\Utils\RegexRegistry;
  *
  * @package phpDoxExtension\Parser\PSR19
  */
-class SeeParser extends FQCNParser {
+class UsesParser extends FQCNParser {
     /**
      * @inheritDoc
      */
     public function allowedAsInline (): bool {
-        return true;
+        return false;
     }
 
     /**
@@ -44,7 +42,7 @@ class SeeParser extends FQCNParser {
         if (!empty($params[0])) {
             $match_FQCN = self::parseFQCN($element, $params);
             if (!$match_FQCN && preg_match(RegexRegistry::URI_RFC2396, $params[0], $match) === 1) {
-                $element->addAttribute('uri', $params[0]);
+                $element->addAttribute('file', $params[0]);
                 array_shift($params);
             }
         }

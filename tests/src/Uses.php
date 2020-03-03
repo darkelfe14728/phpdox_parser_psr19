@@ -3,13 +3,13 @@
 namespace Tests\src;
 
 /**
- * @see $property1
- * @see \Tests\src\See::CONSTANT1
- * @see \Tests\src\See::method2()
+ * @uses dir/file.php
+ * @uses \Tests\src\Uses::CONSTANT1
+ * @uses Uses::method2()
  *
  * @package src
  */
-class See {
+class Uses {
     protected $property1;
 
     protected const CONSTANT1 = 0;

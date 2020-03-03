@@ -96,6 +96,10 @@ abstract class AbstractParser extends GenericParser {
             $class = $class_name;
         }
 
+        if (mb_substr($class, 0, 1) != '\\') {
+            $class = '\\' . $class;
+        }
+
         return $class;
     }
 
