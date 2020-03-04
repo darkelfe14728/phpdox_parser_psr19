@@ -60,9 +60,16 @@ REGEXP;
 REGEXP;
 
     /**
+     * @var string A constant/property regular expression
+     */
+    public const CONSTANT_PROPERTY = <<<'REGEXP'
+@^(?:(?<property>\$[a-zA-Z0-9_]+)|(?<constant>[A-Z0-9_]+))$@
+REGEXP;
+
+    /**
      * @var string A Fully Qualified Structural Element Name (FQSEN) regular expression
      */
     public const FQSEN = <<<'REGEXP'
-@^(?:(?<class>\\?(?:[a-zA-Z0-9_]+\\)*[a-zA-Z0-9_]+)::)?(?:(?<property>\$[a-zA-Z0-9_]+)|(?<method>[a-zA-Z0-9_]+\(\))|(?<constant>[a-zA-Z0-9_]+))$@
+@^(?:(?<class>\\?(?:[a-zA-Z0-9_]+\\)*[a-zA-Z0-9_]+)::)?(?:(?<property>\$[a-zA-Z0-9_]+)|(?<method>[a-zA-Z0-9_]+\(\))|(?<constant>[A-Z0-9_]+))$@
 REGEXP;
 }

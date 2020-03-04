@@ -19,8 +19,7 @@ use phpDoxExtension\Parser\PSR19\Utils\RegexRegistry;
  * Attributes [FQSEN] :
  *  - class : FQCN
  *  - element : element name (with parenthesis, $, etc.)
- *  - method : function name (without parenthesis)
- *  - property : property name (with $)
+ *  - elementType : nature of element (one of NATURE_* constant)
  *
  * Body : description
  *
