@@ -28,3 +28,4 @@ $phpDox->registerParser('throws')->implementedByClass('phpDoxExtension\\Parser\\
 $phpDox->registerParser('todo')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\TodoParser');
 $phpDox->registerParser('uses')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\UsesParser');
 $phpDox->registerParser('var')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\VarParser');
+$phpDox->registerParser('version')->implementedByClass('phpDoxExtension\\Parser\\PSR19\\VersionParser');
